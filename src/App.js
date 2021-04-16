@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Aside from './components/Aside/Aside';
 import Header from './components/Header/Header';
@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import * as global from './assets/global-style';
 import { Footer } from './components/Footer';
-import { getQount, setQount } from './request';
+import { getIp, setQount } from './request';
 
 const Container = styled(global.Container)``;
 
@@ -19,16 +19,23 @@ const MainWrapper = styled.div`
 `;
 
 function App() {
-  
+  const [user, setUser] = useState(0);
 
-  const onClick =useCallback( (e) => {
-    setQount(3).then((resp) => console.log(resp));
-  },[]);
+  useEffect(() => {
+    getIp()
+      .then((ip) => {
+        const time = Math.floor(new Date().getTime() / 1000 / 60);
+        return { ip, time };
+      })
+      .then((obj) => {
+        setQount(obj).then((resp) => setUser(resp.data));
+      });
+  }, []);
+  
 
   return (
     <>
-      <Header />
-      <button onClick={(e) => onClick(e)}>dsf</button>
+      <Header qount={user} />
       <Container>
         <MainWrapper>
           <Aside />

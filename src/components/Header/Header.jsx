@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { getQount, setQount } from '../../request';
-
 import * as vars from '../../assets/vars';
 import * as global from '../../assets/global-style';
+import Counter from './components/Counter';
 
 const HeaderBlock = styled.div`
   width: 100%;
@@ -17,17 +16,11 @@ const Container = styled(global.Container)`
   text-align: center;
 `;
 
-function Header() {
-  const [state, setstate] = useState();
-
-  useEffect(() => {
-    getQount().then((resp) => setstate(resp));
-  }, []);
-
+function Header({ qount }) {
   return (
     <HeaderBlock>
       <Container>
-        <div className="counter">Спидометр</div>
+        <Counter qount={qount} />
       </Container>
     </HeaderBlock>
   );

@@ -4,6 +4,7 @@ import myPhoto from '../../assets/images/i.jpg';
 
 import * as global from '../../assets/global-style';
 import { Phone } from '../Main/components';
+import { data } from '../../dataBase/db';
 
 const AsideBlock = styled.aside`
   width: 100%;
@@ -83,8 +84,8 @@ function Aside() {
       <Wrapper>
         <Skils>
           <Skil>
-            <SkilTitle>Название</SkilTitle>
-            <SkilContent>Кнотент</SkilContent>
+            <SkilTitle>Основной стек:</SkilTitle>
+            <SkilContent>{data.skils}</SkilContent>
           </Skil>
         </Skils>
       </Wrapper>

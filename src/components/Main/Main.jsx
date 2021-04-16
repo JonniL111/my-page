@@ -5,30 +5,37 @@ import * as vars from '../../assets/vars';
 import * as global from '../../assets/global-style';
 
 import { Phone } from './components';
+import { data } from '../../dataBase/db';
 
 const MainBlock = styled.div`
   width: 100%;
 `;
 const Wrapper = styled(global.Wrapper)``;
 const WrapperPhone = styled(global.Wrapper)`
-  @media (max-width: 575px){
+  @media (max-width: 575px) {
     display: none;
   }
 `;
 
-const Information = styled.div`
+const Information = styled.div``;
+const InformationRow = styled.div`
   display: grid;
   grid-template-columns: 25% auto;
   gap: 15px;
+  margin-bottom: 15px;
   @media (max-width: 767px) {
     grid-template-columns: auto;
   }
 `;
 const InformationTitle = styled.div`
+  padding-top: 10px;
   color: ${vars.grey};
   font-size: 12px;
 `;
 const InformationDescription = styled.div`
+  div{
+    font-weight: 700;
+  }
   @media (max-width: 767px) {
     border-bottom: 1px solid ${vars.borderColor};
     padding-bottom: 10px;
@@ -38,39 +45,32 @@ const InformationDescription = styled.div`
 const BlockTitle = styled(global.BlockTitle)``;
 
 function Main() {
+  const map = (data) => {
+    return data.map((item, idx) => (
+      <InformationRow key={idx}>
+        <InformationTitle>{item.years}</InformationTitle>
+        <InformationDescription>
+          <div>{item.title}</div>
+          <span>{item.description}</span>
+        </InformationDescription>
+      </InformationRow>
+    ));
+  };
+  const education = map(data.education);
+  const works = map(data.works);
   return (
     <MainBlock>
       <WrapperPhone>
-        <Phone/>
+        <Phone />
       </WrapperPhone>
       <Wrapper>
         <BlockTitle>Образование:</BlockTitle>
-        <Information>
-          <InformationTitle>1</InformationTitle>
-          <InformationDescription>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi labore ex eum
-            reprehenderit porro sequi voluptas animi neque et distinctio tempora veritatis vel, quia
-            veniam inventore quos. Maiores, corrupti fuga.
-          </InformationDescription>
-          <InformationTitle>3</InformationTitle>
-          <InformationDescription>4</InformationDescription>
-          <InformationTitle>5</InformationTitle>
-        </Information>
+        <Information>{education}</Information>
       </Wrapper>
 
       <Wrapper>
         <BlockTitle>Опыт работы:</BlockTitle>
-        <Information>
-          <InformationTitle>1</InformationTitle>
-          <InformationDescription>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi labore ex eum
-            reprehenderit porro sequi voluptas animi neque et distinctio tempora veritatis vel, quia
-            veniam inventore quos. Maiores, corrupti fuga.
-          </InformationDescription>
-          <InformationTitle>3</InformationTitle>
-          <InformationDescription>4</InformationDescription>
-          <InformationTitle>5</InformationTitle>
-        </Information>
+        <Information>{works}</Information>
       </Wrapper>
     </MainBlock>
   );

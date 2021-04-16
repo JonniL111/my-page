@@ -1,25 +1,34 @@
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const router = jsonServer.router('./public/db.json');
-const middlewares = jsonServer.defaults({
-  static: './build',
+const timeDelay = 15; //время до удаления пользователя
+
+const express = require('express');
+const app = express();
+const port = 3001;
+
+app.use(express.json());
+const data = new Map();
+
+app.post('/user', (req, res) => {
+  let qount = 0;
+  const { ip, time } = req.body;
+  //проверяем когда был пользователь
+  for (let item of data) {
+    if (item[1].time <= time - timeDelay) {
+      data.delete(item[0]);
+    }
+  }
+  // считаем посещения
+  if (!data.has(ip)) {
+    data.set(ip, { time, qount: 0 });
+  } else {
+    data.set(ip, { time, qount: data.get(ip).qount + 1 });
+  }  
+  //берем общее количество посещений
+  for (let item of data) {
+    qount += item[1].qount
+  }
+  res.json(qount+1);
 });
 
-const PORT = process.env.PORT || 3001;
-
-server.use(middlewares);
-
-server.use(jsonServer.bodyParser)
-server.use((req, res, next) => {
-  if (req.method === 'POST') {
-    req.body.createdAt = Date.now()
-  }
-  // Continue to JSON Server router
-  next()
-})
-
-server.use(router);
-
-server.listen(PORT, () => {
-  console.log('Server is running');
+app.listen(port, () => {
+  console.log(`Port has started on :${port}`);
 });
