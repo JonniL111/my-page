@@ -12,7 +12,7 @@ const FooterBlock = styled.footer`
 `;
 
 function Footer() {
-  return <FooterBlock>text</FooterBlock>;
+  return <FooterBlock>2021</FooterBlock>;
 }
 
 export default Footer;
